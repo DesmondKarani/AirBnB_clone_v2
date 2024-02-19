@@ -73,12 +73,12 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
-                            and type(eval(pline)) is dict:
-                        _args = pline
-                    else:
-                        _args = pline.replace(',', '')
-                        # _args = _args.replace('\"', '')
+                    if (pline[0] is '{' and pline[-1] is '}'):
+                        and type(eval(pline)) is dict:
+                            _args = pline
+                        else:
+                            _args = pline.replace(',', '')
+                            # _args = _args.replace('\"', '')
             line = ' '.join([_cmd, _cls, _id, _args])
 
         except Exception as mess:
@@ -113,7 +113,7 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
+    '''def do_create(self, args):
         """ Create an object of any class"""
         if not args:
             print("** class name missing **")
@@ -124,7 +124,44 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[args]()
         storage.save()
         print(new_instance.id)
-        storage.save()
+        storage.save()'''
+
+    def do_create(self, args):
+        """ Create an object of any class with optional attributes """
+        args_list = args.split(" ")
+        if len(args_list) == 0:
+            print("** class name missing **")
+            return
+
+        class_name = args_list[0]
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        new_instance = HBNBCommand.classes[class_name]()
+
+        for arg in args_list[1:]:
+            key_value = arg.split("=")
+            if len(key_value) == 2:
+                key, value = key_value
+                if value[0] == '"' and value[-1] == '"':
+                    value = value[1:-1].replace('_', ' ').replace('\\"', '"')
+                    # Convert value to float or int if applicable
+
+                    try:
+                        if "." in value:
+                            value = float(value)
+                        else:
+                            value = int(value)
+                    except ValueError:
+                        pass  # If conversion fails, keep the original string
+
+                    if isinstance(value, str) or isinstance(value, int) \
+                            or isinstance(value, float):
+                        setattr(new_instance, key, value)
+
+    new_instance.save()
+    print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
@@ -187,7 +224,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del storage.all()[key]
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -319,6 +356,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
