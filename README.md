@@ -24,7 +24,7 @@ SELECT id, name FROM students WHERE batch_id = 3 ORDER BY created_at DESC LIMIT 
 ## Acknowledgments
 
 - Original Authors: Ezra Nobrega & Justin Majetich
-- This project is a fork of [AirBnB_clone]https://github.com/justinmajetich/AirBnB_clone.git intended for educational purposes and further development under the guidance of Desmond Karani and contributions from Lydia Nakivumbi.
+- This project is a fork of [AirBnB_clone](https://github.com/justinmajetich/AirBnB_clone.git) intended for educational purposes and further development under the guidance of Desmond Karani and contributions from Lydia Nakivumbi.
 
 ## Contributing
 
