@@ -6,7 +6,7 @@ using the function do_deploy"""
 from fabric.api import *
 from os.path import exists
 
-env.hosts = ['35.237.166.125', '54.167.61.201']  # Your server IPs
+env.hosts = ['100.25.158.138', '35.168.3.127']  # My server IPs
 
 
 def do_deploy(archive_path):
