@@ -4,7 +4,7 @@ archive from the contents of the web_static folder of your
 AirBnB Clone repo, using the function do_pack."""
 
 
-from fabric.api import local
+from fabric.api import *
 from datetime import datetime
 
 
@@ -20,7 +20,7 @@ def do_pack():
 
     # Create the archive using tar command
     command = "tar -cvzf {} web_static".format(archive_name)
-    result = local(command, capture=True)
+    result = local(command)
 
     # Check if the archive was successfully created
     if result.failed:
