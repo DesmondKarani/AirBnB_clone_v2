@@ -12,6 +12,8 @@ env.key_filename = "my_ssh_private_key"
 
 
 def do_deploy(archive_path):
+    """Distributes an archive to web servers."""
+
     if not isfile(archive_path):
         return False
 
